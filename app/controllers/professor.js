@@ -1,8 +1,8 @@
 const express = require("express");
 const { Client } = require('pg');
 
-const QUERY_CONST = require("./constants/dbQuery");
-const RESPONSE_CONST = require("./constants/response");
+const QUERY_CONST = require("../constants/dbQuery");
+const RESPONSE_CONST = require("../constants/response");
 
 //DB connection
 const client = new Client("postgres://ehhcmqsb:xcBCgsMlrcyqlUsU0mPL6aljm3B2UBxV@isilo.db.elephantsql.com:5432/ehhcmqsb");
