@@ -1,14 +1,23 @@
 const express = require("express");
+const {Client}=require('pg');
+
+const QUERY_CONST = require("./constants/dbQuery");
+
+//DB connection
+const client =new Client("postgres://ehhcmqsb:xcBCgsMlrcyqlUsU0mPL6aljm3B2UBxV@isilo.db.elephantsql.com:5432/ehhcmqsb");
+
+client.connect()
+.then(() => console.log("Connected to db successfully"))
+.catch(e => console.log(e)) 
+
+
+//API calls
 const router = express.Router();
 
-
-router.get("/", function(req, res) {
-    return res.send("hello");
-});
-
-router.get("/:id", function(req, res) {
-    console.log(req.params.id);
-    return res.send("This is your id"+req.params.id);
+router.get("/", (req, res)=> {
+    client.query(QUERY_CONST.GET_STUDENTS)
+    .then(result => {return res.send(result.rows)})
+    .catch(e =>console.error(e.stack))
 });
 
 module.exports=router;
