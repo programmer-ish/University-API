@@ -18,4 +18,19 @@ router.get("/", (req, res) => {
     .catch(e =>console.error(e.stack))
 });
 
+router.post('/',(req,res)=>{
+    const text = 'INSERT INTO SemesterClass(title) VALUES($1)'
+    const values = [req.query.title]
+
+    client.query(text,values)
+    .then(() =>
+        res.status(201).json({
+            message: " HTTP status 201 Created"
+        })
+    )
+    .catch(e =>res.status(400).json({
+        message: " HTTP status 400 Bad Request"
+    })) 
+});
+
 module.exports=router;
