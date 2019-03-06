@@ -20,4 +20,10 @@ router.get("/", (req, res)=> {
     .catch(e =>console.error(e.stack))
 });
 
+router.get("/:id", (req, res)=> {
+    client.query(QUERY_CONST.GET_STUDENT_BY_ID+req.params.id)
+    .then(result => {return res.send(result.rows)})
+    .catch(e =>console.error(e.stack))
+});
+
 module.exports=router;
