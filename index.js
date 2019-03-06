@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 
 app.use("/classes",classesRouter);
 app.use("/students",studentRouter);
-app.use("/professor",studentRouter);  
+app.use("/professor",professorRouter);  
 
 const server=app.listen(port,()=>{
     console.log("Server is running");

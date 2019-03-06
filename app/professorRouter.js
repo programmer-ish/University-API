@@ -20,3 +20,20 @@ router.get("/", (req, res) => {
     .then(result => {return res.send(result.rows)})
     .catch(e =>console.error(e.stack))
 });
+
+router.post('/',(req,res)=>{
+    const query = QUERY_CONST.POST_PROFESSOR
+    const values = [req.query.name,req.query.designation]
+
+    client.query(query,values)
+    .then(() =>
+        res.status(201).json({
+            message: RESPONSE_CONST.HTTP_201
+        })
+    )
+    .catch(e =>res.status(400).json({
+        message: RESPONSE_CONST.HTTP_400
+    })) 
+});
+
+module.exports=router;
