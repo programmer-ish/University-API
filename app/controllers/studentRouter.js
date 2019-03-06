@@ -54,7 +54,7 @@ router.get("/", (req, res) => {
         .then(result => { return res.send(result.rows) })
         .catch(e => {
             console.error(e.stack);
-            res.send({
+            res.status(400).send({
                 message: RESPONSE_CONST.HTTP_400,
                 error: e.stack
             });
@@ -65,7 +65,13 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
     client.query(QUERY_CONST.GET_STUDENT_BY_ID + req.params.id)
         .then(result => { return res.send(result.rows) })
-        .catch(e => console.error(e.stack))
+        .catch(e => {
+            console.error(e.stack);
+            res.status(400).send({
+                message: RESPONSE_CONST.HTTP_400,
+                error: e.stack
+            });
+        })
 });
 
 router.get("/:id/classes", (req, res) => {
@@ -75,7 +81,13 @@ router.get("/:id/classes", (req, res) => {
                 message: RESPONSE_CONST.HTTP_404
             }))
         })
-        .catch(e => { res.send(e.stack) })
+        .catch(e => {
+            console.error(e.stack);
+            res.status(400).send({
+                message: RESPONSE_CONST.HTTP_400,
+                error: e.stack
+            });
+        })
 });
 
 router.post('/', (req, res) => {
@@ -88,9 +100,13 @@ router.post('/', (req, res) => {
                 message: RESPONSE_CONST.HTTP_201
             })
         )
-        .catch(e => res.status(400).json({
-            message: RESPONSE_CONST.HTTP_400
-        }))
+        .catch(e => {
+            console.error(e.stack);
+            res.status(400).send({
+                message: RESPONSE_CONST.HTTP_400,
+                error: e.stack
+            });
+        })
 });
 
 router.patch("/:id", (req, res) => {
@@ -99,14 +115,26 @@ router.patch("/:id", (req, res) => {
 
     client.query(query, values)
         .then(() => res.status(200))
-        .catch(e => res.status(400))
+        .catch(e => {
+            console.error(e.stack);
+            res.status(400).send({
+                message: RESPONSE_CONST.HTTP_400,
+                error: e.stack
+            });
+        })
 });
 
 router.delete("/:id", (req, res) => {
     const query = QUERY_CONST.DELETE_STUDENT + req.params.id
     client.query(query)
         .then(() => res.status(200))
-        .catch(e => res.status(400))
+        .catch(e => {
+            console.error(e.stack);
+            res.status(400).send({
+                message: RESPONSE_CONST.HTTP_400,
+                error: e.stack
+            });
+        })
 });
 
 module.exports = router;

@@ -18,7 +18,13 @@ const router = express.Router();
 router.get("/", (req, res) => {
     client.query(QUERY_CONST.GET_CLASSES)
         .then(result => { return res.send(result.rows) })
-        .catch(e => console.error(e.stack))
+        .catch(e => {
+            console.error(e.stack);
+            res.status(400).send({
+                message: RESPONSE_CONST.HTTP_400,
+                error: e.stack
+            });
+        })
 });
 
 router.post('/', (req, res) => {
@@ -31,9 +37,13 @@ router.post('/', (req, res) => {
                 message: RESPONSE_CONST.HTTP_201
             })
         )
-        .catch(e => res.status(400).json({
-            message: RESPONSE_CONST.HTTP_400
-        }))
+        .catch(e => {
+            console.error(e.stack);
+            res.status(400).send({
+                message: RESPONSE_CONST.HTTP_400,
+                error: e.stack
+            });
+        })
 });
 
 router.post("/:id/students", (req, res) => {
@@ -51,9 +61,13 @@ router.post("/:id/students", (req, res) => {
                 message: RESPONSE_CONST.HTTP_201
             })
         )
-        .catch(e => res.status(400).json({
-            message: RESPONSE_CONST.HTTP_400
-        }))
+        .catch(e => {
+            console.error(e.stack);
+            res.status(400).send({
+                message: RESPONSE_CONST.HTTP_400,
+                error: e.stack
+            });
+        })
 
 });
 
@@ -65,9 +79,14 @@ router.post("/:id/professor", (req, res) => {
             message: RESPONSE_CONST.HTTP_201
         })
         )
-        .catch(e => res.status(400).json({
-            message: RESPONSE_CONST.HTTP_400
-        }))
+        .catch(e => {
+            console.error(e.stack);
+            res.status(400).send({
+                message: RESPONSE_CONST.HTTP_400,
+                error: e.stack
+            });
+        })
 
 });
+
 module.exports = router;
