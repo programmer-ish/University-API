@@ -4,6 +4,7 @@ const express=require("express");
 const db=require("./app/database");
 const classesRouter=require("./app/classesRouter");
 const studentRouter=require("./app/studentRouter");
+const professorRouter=require("./app/professorRouter");
 
 //Server setup
 const app=express();
@@ -13,8 +14,9 @@ db();
 app.use(bodyParser.urlencoded({   extended: true })); 
 app.use(bodyParser.json());
 
-app.use("/classes",classesRouter); //middleware student
-app.use("/students",studentRouter); //middleware student
+app.use("/classes",classesRouter);
+app.use("/students",studentRouter);
+app.use("/professor",studentRouter);  
 
 const server=app.listen(port,()=>{
     console.log("Server is running");
