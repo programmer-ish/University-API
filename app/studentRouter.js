@@ -14,7 +14,52 @@ client.connect()
 //API calls
 const router = express.Router();
 
+router.get("/", (req, res) => {
+    const pageSize = req.query.pageSize || 20;
+    const pageNo = req.query.pageNo || 1;
 
+    let queryString = "";
+    let alreadyAdded = false;
+
+    if (req.query.classes) {
+        queryString = "select DISTINCT * from Student inner join ClassStudent on Student.roll_no=ClassStudent.studentId where "
+        queryString += "ClassStudent.classId in (" + req.query.classes.join(',') + ") "
+        alreadyAdded = true;
+    } else {
+        queryString = "select * from Student where ";
+    }
+
+    if (req.query.admissionYearAfter) {
+        queryString += (alreadyAdded == true ? "AND EXTRACT(YEAR FROM Student.admissionDate) >= " + req.query.admissionYearAfter : "EXTRACT(YEAR FROM Student.admissionDate) >= " + req.query.admissionYearAfter)
+        alreadyAdded = true;
+    }
+
+    if (req.query.admissionYearBefore) {
+        queryString += (alreadyAdded == true ? " AND EXTRACT(YEAR FROM Student.admissionDate) <= " + req.query.admissionYearBefore : " EXTRACT(YEAR FROM Student.admissionDate) <= " + req.query.admissionYearBefore)
+        alreadyAdded = true;
+    }
+
+    if (req.query.active) {
+        queryString += (alreadyAdded == true ? " AND Student.active = " + req.query.active : " Student.active= " + req.query.active)
+        alreadyAdded = true;
+    }
+
+    if (alreadyAdded == false) {
+        queryString = QUERY_CONST.GET_STUDENTS
+    }
+
+    queryString += " LIMIT " + pageSize + " OFFSET " + ((pageNo - 1) * pageSize) + ";";
+
+    client.query(queryString)
+        .then(result => { return res.send(result.rows) })
+        .catch(e => {
+            console.error(e.stack);
+            res.send({
+                message: RESPONSE_CONST.HTTP_400,
+                error: e.stack
+            });
+        })
+});
 
 
 router.get("/:id", (req, res) => {
@@ -30,7 +75,7 @@ router.get("/:id/classes", (req, res) => {
                 message: RESPONSE_CONST.HTTP_404
             }))
         })
-        .catch(e => {res.send(e.stack)})
+        .catch(e => { res.send(e.stack) })
 });
 
 router.post('/', (req, res) => {

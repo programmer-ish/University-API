@@ -3,7 +3,7 @@ module.exports={
     POST_CLASS:"INSERT INTO SemesterClass(title) VALUES($1)",
     GET_STUDENTS:"select * from Student",
     GET_STUDENT_BY_ID:"select * from Student where roll_no=",
-    GET_CLASSES_OF_STUDENT:"select * from ClassStudent inner join SemesterClass on ClassStudent.classId=SemesterClass.id \
+    GET_CLASSES_OF_STUDENT:"select DISTINCT * from ClassStudent inner join SemesterClass on ClassStudent.classId=SemesterClass.id \
     inner join ClassProfessor on ClassProfessor.classId=ClassStudent.classId \
     inner join Professor on ClassProfessor.professorId=Professor.university_staff_no where ClassStudent.studentId=",
     POST_STUDENT:"INSERT INTO Student(name, admissionDate) VALUES($1, $2)",
