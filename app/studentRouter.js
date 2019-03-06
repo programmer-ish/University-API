@@ -41,4 +41,14 @@ router.post('/',(req,res)=>{
    })) 
 });
 
+router.patch("/:id",(req,res)=>{
+    const query = QUERY_CONST.PATCH_STUDENTS
+    const values = [req.query.name,req.params.id]
+
+   client.query(query,values)
+   .then(() =>  res.status(200))
+   .catch(e =>res.status(400)) 
+});
+
+
 module.exports=router;
