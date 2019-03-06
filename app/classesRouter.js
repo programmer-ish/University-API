@@ -56,4 +56,18 @@ router.post("/:id/students", (req, res)=> {
     })) 
 
 });
+
+router.post("/:id/professor", (req, res)=> {
+    const query = QUERY_CONST.POST_PROFESSOR_TO_CLASS
+    const values = [req.params.id,req.query.professor]
+    client.query(query,values)
+    .then(() =>res.status(201).json({
+            message: RESPONSE_CONST.HTTP_201
+        })
+    )
+    .catch(e =>res.status(400).json({
+        message: RESPONSE_CONST.HTTP_400
+    })) 
+
+});
 module.exports=router;
