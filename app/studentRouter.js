@@ -26,6 +26,12 @@ router.get("/:id", (req, res)=> {
     .catch(e =>console.error(e.stack))
 });
 
+router.get("/:id/classes", (req, res)=> {
+    client.query(QUERY_CONST.GET_CLASSES_OF_STUDENT+req.params.id)
+    .then(result => {return res.send(result.rows)})
+    .catch(e =>console.error(e.stack))
+});
+
 router.post('/',(req,res)=>{
     const query = QUERY_CONST.POST_STUDENTS
     const values = [req.body.name,req.body.admissionDate]
