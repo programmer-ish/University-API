@@ -1,24 +1,24 @@
-const bodyParser=require("body-parser");
-const express=require("express");
+const bodyParser = require("body-parser");
+const express = require("express");
 
-const db=require("./app/database");
-const classesRouter=require("./app/classesRouter");
-const studentRouter=require("./app/studentRouter");
-const professorRouter=require("./app/professorRouter");
+const db = require("./app/database");
+const classesRouter = require("./app/controllers/classesRouter");
+const studentRouter = require("./app/controllers/studentRouter");
+const professorRouter = require("./app/controllers/professorRouter");
 
 //Server setup
-const app=express();
-const port=4000;
+const app = express();
+const port = 4000;
 db();
 
-app.use(bodyParser.urlencoded({   extended: true })); 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use("/classes",classesRouter);
-app.use("/students",studentRouter);
-app.use("/professor",professorRouter);  
+app.use("/classes", classesRouter);
+app.use("/students", studentRouter);
+app.use("/professor", professorRouter);
 
-const server=app.listen(port,()=>{
+const server = app.listen(port, () => {
     console.log("Server is running");
 });
 
