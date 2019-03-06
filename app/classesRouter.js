@@ -2,6 +2,7 @@ const express = require("express");
 const {Client}=require('pg');
 
 const QUERY_CONST = require("./constants/dbQuery");
+const RESPONSE_CONST=require("./constants/response");
 
 //DB connection
 const client =new Client("postgres://ehhcmqsb:xcBCgsMlrcyqlUsU0mPL6aljm3B2UBxV@isilo.db.elephantsql.com:5432/ehhcmqsb");
@@ -27,11 +28,11 @@ router.post('/',(req,res)=>{
     client.query(text,values)
     .then(() =>
         res.status(201).json({
-            message: " HTTP status 201 Created"
+            message: RESPONSE_CONST.HTTP_201
         })
     )
     .catch(e =>res.status(400).json({
-        message: " HTTP status 400 Bad Request"
+        message: RESPONSE_CONST.HTTP_400
     })) 
 });
 
