@@ -47,4 +47,12 @@ client.query(query)
 .then(() =>console.log("ClassStudent table created"))
 .catch(e =>console.error(e.stack))
 
+ //Class-Professor table
+ query='CREATE TABLE IF NOT EXISTS ClassProfessor('+
+ 'classId integer REFERENCES SemesterClass(id),'+
+ 'professorId integer REFERENCES Professor(university_staff_no));';
+
+client.query(query)
+.then(() =>console.log("ClassProfessor table created"))
+.catch(e =>console.error(e.stack))
 }
