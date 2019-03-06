@@ -22,10 +22,10 @@ router.get("/", (req, res) => {
 });
 
 router.post('/',(req,res)=>{
-    const text = 'INSERT INTO SemesterClass(title) VALUES($1)'
+    const query = QUERY_CONST.POST_CLASSES
     const values = [req.query.title]
 
-    client.query(text,values)
+    client.query(query,values)
     .then(() =>
         res.status(201).json({
             message: RESPONSE_CONST.HTTP_201
