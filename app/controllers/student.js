@@ -129,7 +129,9 @@ router.patch("/:id", (req, res) => {
     const values = [req.body.name, req.params.id]
 
     client.query(query, values)
-        .then(() => res.sendStatus(200))
+        .then(() => res.status(200).send({
+            message: RESPONSE_CONST.HTTP_200
+        }))
         .catch(e => {
             console.error(e.stack);
             res.status(400).send({
@@ -142,7 +144,9 @@ router.patch("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
     const query = QUERY_CONST.DELETE_STUDENT + req.params.id
     client.query(query)
-        .then(() => res.sendStatus(200))
+        .then(() => res.status(200).send({
+            message: RESPONSE_CONST.HTTP_200
+        }))
         .catch(e => {
             console.error(e.stack);
             res.status(400).send({
