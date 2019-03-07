@@ -111,7 +111,7 @@ router.post('/', (req, res) => {
 
 router.patch("/:id", (req, res) => {
     const query = QUERY_CONST.PATCH_STUDENT
-    const values = [req.query.name, req.params.id]
+    const values = [req.body.name, req.params.id]
 
     client.query(query, values)
         .then(() => res.status(200))
