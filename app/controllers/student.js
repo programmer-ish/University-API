@@ -75,11 +75,26 @@ router.get("/:id", (req, res) => {
 });
 
 router.get("/:id/classes", (req, res) => {
-    client.query(QUERY_CONST.GET_CLASSES_OF_STUDENT + req.params.id)
+    let studentExist = false;
+    client.query(QUERY_CONST.GET_STUDENT_BY_ID + req.params.id)
         .then(result => {
-            (result.rowCount != 0 ? res.send(result.rows) : res.status(404).json({
-                message: RESPONSE_CONST.HTTP_404
-            }))
+            (result.rowCount != 0 ? studentExist = true : studentExist = false)
+            if (studentExist == true) {
+                client.query(QUERY_CONST.GET_CLASSES_OF_STUDENT + req.params.id)
+                    .then(result => { return res.send(result.rows) })
+                    .catch(e => {
+                        console.error(e.stack);
+                        res.status(400).send({
+                            message: RESPONSE_CONST.HTTP_400,
+                            error: e.stack
+                        });
+                    })
+            } else {
+                res.status(404).json({
+                    message: RESPONSE_CONST.HTTP_404
+                })
+            }
+
         })
         .catch(e => {
             console.error(e.stack);
